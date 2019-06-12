@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
 class MessageList extends Component {
-    state = {}
+    state = {
+        messages: this.props.messages
+    }
     render() {
         return (
             <ul className="list-group">
-                {this.props.messages.map(message => {
-                    return <li className="list-group-item">{message.text}</li>
+                {this.state.messages.map(message => {
+                    return <li key={message.id} className="list-group-item">{message.text}</li>
                 })}
             </ul>
         );
