@@ -8,7 +8,7 @@ class MessageList extends Component {
         return (
             <ul className="list-group">
                 {this.state.messages.map(message => {
-                    return <li key={message.id} className="list-group-item">{message.text}</li>
+                    return <li key={message.id} className="list-group-item">{message.name}: {message.text}</li>
                 })}
             </ul>
         );
