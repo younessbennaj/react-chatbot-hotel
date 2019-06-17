@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Message from './message';
 
 class MessageList extends Component {
     state = {
@@ -8,7 +9,7 @@ class MessageList extends Component {
         return (
             <ul className="list-group">
                 {this.state.messages.map(message => {
-                    return <li key={message.id} className="list-group-item">{message.name}: {message.text}</li>
+                    return <Message key={message.id} message={message} />
                 })}
             </ul>
         );
