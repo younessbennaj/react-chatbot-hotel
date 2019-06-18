@@ -5,22 +5,41 @@ const Message = (props) => {
         listStyleType: 'none'
     };
 
-    const cardStyle = {
+    const cardStyleLeft = {
         borderRadius: '18px 18px 18px 0px'
     }
 
-    return (
-        <li style={liStyle}>
-            <div className="row">
-                <div className="d-flex align-items-center mr-2">
-                    <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle pull-left" />
+    const cardStyleRight = {
+        borderRadius: '18px 18px 0px 18px'
+    }
+
+    if (props.message.name === 'Bot') {
+        return (
+            <li style={liStyle}>
+                <div className="row mb-3 d-flex flex-row">
+                    <div className="d-flex align-items-center mr-2">
+                        <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle" />
+                    </div>
+                    <div className="card " style={cardStyleLeft}>
+                        <div className="card-body">{props.message.text}</div>
+                    </div>
                 </div>
-                <div className="card" style={cardStyle}>
-                    <div className="card-body">{props.message.text}</div>
+            </li>
+        );
+    } else {
+        return (
+            <li style={liStyle}>
+                <div className="row mb-3 d-flex flex-row-reverse">
+                    <div className="d-flex align-items-center ml-2">
+                        <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle" />
+                    </div>
+                    <div className="card " style={cardStyleRight}>
+                        <div className="card-body">{props.message.text}</div>
+                    </div>
                 </div>
-            </div>
-        </li>
-    );
+            </li>
+        );
+    }
 }
 
 export default Message;
