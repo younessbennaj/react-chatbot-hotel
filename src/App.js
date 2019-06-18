@@ -11,17 +11,15 @@ class App extends Component {
     message = React.createRef();
 
 
-    df_text_query_result = async (event, message) => {
-        event.preventDefault();
-        this.sendMessage(message);
-        const data = { text: message.text };
+    async df_text_query_result(text) {
+        const data = { text };
         const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
         const botMessage = {
             name: 'Bot',
             text: response.data.fulfillmentMessages[0].text.text[0],
             id: Math.random()
         };
-        this.sendMessage(botMessage);
+        this.renderMessages(botMessage);
     }
 
     df_event_query_result = async (event) => {
@@ -32,10 +30,16 @@ class App extends Component {
             text: response.data.fulfillmentMessages[0].text.text[0],
             id: Math.random()
         };
-        this.sendMessage(botMessage);
+        this.renderMessages(botMessage);
     }
 
-    sendMessage(message) {
+    submitMessages = (event, message) => {
+        event.preventDefault();
+        this.renderMessages(message);
+        this.df_text_query_result(message.text);
+    }
+
+    renderMessages(message) {
         const messages = this.state.messages;
         messages.push(message);
         this.setState({ messages });
@@ -51,7 +55,7 @@ class App extends Component {
             <main className="container">
                 <h1 className="text-center">Hospitality Chatbot</h1>
                 <MessageList messages={this.state.messages} />
-                <SendMessageForm onSubmit={this.df_text_query_result} />
+                <SendMessageForm onSubmit={this.submitMessages} />
             </main>
         );
     }
