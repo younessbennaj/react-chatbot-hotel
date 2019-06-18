@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 
 class SendMessageForm extends Component {
-    message = React.createRef();
-    state = {}
+    state = {
+        message: {
+            name: 'User',
+            text: '',
+            id: Math.random()
+        }
+    }
+
+    handleChange = e => {
+        const message = { ...this.state.message };
+        message.text = e.currentTarget.value;
+        this.setState({ message });
+    }
+
     render() {
         return (
-            <form onSubmit={(e) => this.props.onSubmit(e, this.message.current.value)}>
+            <form onSubmit={(e) => this.props.onSubmit(e, this.state.message)}>
                 <div className="input-group mb-3">
-                    <input ref={this.message} type="text" className="form-control" placeholder="Type here..."></input>
+                    <input value={this.state.message.text} onChange={this.handleChange} ref={this.message} type="text" className="form-control" placeholder="Type here..."></input>
                     <div className="input-group-append">
                         <button className="btn btn-primary" type="submit">Send</button>
                     </div>
