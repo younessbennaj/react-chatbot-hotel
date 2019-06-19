@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import uuid from "uuid";
 
 class SendMessageForm extends Component {
     state = {
@@ -20,7 +21,7 @@ class SendMessageForm extends Component {
         const message = { ...this.state.message };
         this.props.onSubmit(message);
         message.text = '';
-        message.id = Math.random();
+        message.id = uuid.v4();
         this.setState({ message });
     }
 
