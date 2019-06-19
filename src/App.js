@@ -6,7 +6,14 @@ import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import axios from 'axios';
 const messageList = [];
 class App extends Component {
-    state = { messages: messageList }
+    state = {
+        messages: messageList,
+        message: {
+            name: 'User',
+            text: '',
+            id: Math.random()
+        }
+    }
 
     message = React.createRef();
 
@@ -33,9 +40,9 @@ class App extends Component {
         this.renderMessages(botMessage);
     }
 
-    submitMessages = (event, message) => {
-        event.preventDefault();
-        this.renderMessages(message);
+    submitMessages = message => {
+        const userMessage = { ...message };
+        this.renderMessages(userMessage);
         this.df_text_query_result(message.text);
     }
 
@@ -55,7 +62,7 @@ class App extends Component {
             <main className="container">
                 <h1 className="text-center">Hospitality Chatbot</h1>
                 <MessageList messages={this.state.messages} />
-                <SendMessageForm onSubmit={this.submitMessages} />
+                <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
             </main>
         );
     }
