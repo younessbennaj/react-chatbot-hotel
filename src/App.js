@@ -50,6 +50,7 @@ class App extends Component {
         const messages = this.state.messages;
         messages.push(message);
         this.setState({ messages });
+        console.log(this.state.messages);
     }
 
     componentDidMount() {

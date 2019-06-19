@@ -20,6 +20,7 @@ class SendMessageForm extends Component {
         const message = { ...this.state.message };
         this.props.onSubmit(message);
         message.text = '';
+        message.id = Math.random();
         this.setState({ message });
     }
 
