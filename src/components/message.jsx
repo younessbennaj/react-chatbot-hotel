@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { scale } from '../common/animation';
+import Bubble from '../messages_components/text/Bubble';
 
 const Message = (props) => {
 
@@ -8,14 +9,10 @@ const Message = (props) => {
         list-style-type: none;
     `;
 
-    const BubbleLeft = styled.div`
-        animation: ${scale} 0.3s ease forwards;
-        border-radius: 18px 18px 18px 0px;
-    `;
-
     const BubleRight = styled.div`
         animation: ${scale} 0.3s ease forwards;
         border-radius: 18px 18px 0px 18px;
+        font-size: 14px;
     `;
 
     if (props.message.name === 'Bot') {
@@ -25,9 +22,9 @@ const Message = (props) => {
                     <div className="d-flex align-items-center mr-2">
                         <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle" />
                     </div>
-                    <BubbleLeft className="card ">
+                    <Bubble user={props.message.name} className="card ">
                         <div className="card-body">{props.message.text}</div>
-                    </BubbleLeft>
+                    </Bubble>
                 </div>
             </Step>
         );
