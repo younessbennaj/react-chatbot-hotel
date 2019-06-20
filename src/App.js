@@ -4,7 +4,7 @@ import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import axios from 'axios';
 import uuid from "uuid";
 import Cookies from 'universal-cookie';
-import { ChatBotContainer, MessageList, SendMessageForm } from './components';
+import { ChatBotContainer, Header, HeaderTitle, MessageList, SendMessageForm } from './components';
 
 const cookies = new Cookies();
 
@@ -79,9 +79,13 @@ class App extends Component {
     render() {
         return (
             <main className="container">
-                <h1 className="text-center">Hospitality Chatbot</h1>
-                <MessageList messages={this.state.messages} />
-                <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                <Header className="d-flex justify-content-center align-items-center px-2">
+                    <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
+                </Header>
+                <ChatBotContainer>
+                    <MessageList messages={this.state.messages} />
+                    <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                </ChatBotContainer>
             </main>
         );
     }

@@ -1,7 +1,7 @@
 export default {
     background: '#f5f8fb',
     fontFamily: 'monospace',
-    headerBgColor: '#6e48aa',
+    headerBgColor: '#2196F3',
     headerFontColor: '#fff',
     headerFontSize: '16px',
     botBubbleColor: '#6E48AA',
