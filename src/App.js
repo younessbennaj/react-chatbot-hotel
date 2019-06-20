@@ -77,12 +77,17 @@ class App extends Component {
 
 
     render() {
+        const width = '350px';
+        const height = '520px';
         return (
             <main className="container">
-                <Header className="d-flex justify-content-center align-items-center px-2">
-                    <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
-                </Header>
-                <ChatBotContainer>
+                <ChatBotContainer
+                    width={width}
+                    height={height}
+                >
+                    <Header className="d-flex justify-content-center align-items-center px-2">
+                        <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
+                    </Header>
                     <MessageList messages={this.state.messages} />
                     <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
                 </ChatBotContainer>
