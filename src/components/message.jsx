@@ -1,43 +1,48 @@
 import React from 'react';
+import styled from 'styled-components';
+import { scale } from '../common/animation';
 
 const Message = (props) => {
-    const liStyle = {
-        listStyleType: 'none'
-    };
 
-    const cardStyleLeft = {
-        borderRadius: '18px 18px 18px 0px'
-    }
+    const Step = styled.li`
+        list-style-type: none;
+    `;
 
-    const cardStyleRight = {
-        borderRadius: '18px 18px 0px 18px'
-    }
+    const BubbleLeft = styled.div`
+        animation: ${scale} 0.3s ease forwards;
+        border-radius: 18px 18px 18px 0px;
+    `;
+
+    const BubleRight = styled.div`
+        animation: ${scale} 0.3s ease forwards;
+        border-radius: 18px 18px 0px 18px;
+    `;
 
     if (props.message.name === 'Bot') {
         return (
-            <li style={liStyle}>
+            <Step>
                 <div className="row mb-3 d-flex flex-row">
                     <div className="d-flex align-items-center mr-2">
                         <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle" />
                     </div>
-                    <div className="card " style={cardStyleLeft}>
+                    <BubbleLeft className="card ">
                         <div className="card-body">{props.message.text}</div>
-                    </div>
+                    </BubbleLeft>
                 </div>
-            </li>
+            </Step>
         );
     } else {
         return (
-            <li style={liStyle}>
+            <Step>
                 <div className="row mb-3 d-flex flex-row-reverse">
                     <div className="d-flex align-items-center ml-2">
                         <img src="https://i.pravatar.cc/50" alt="avatar" className=" rounded-circle" />
                     </div>
-                    <div className="card " style={cardStyleRight}>
+                    <BubleRight className="card ">
                         <div className="card-body">{props.message.text}</div>
-                    </div>
+                    </BubleRight>
                 </div>
-            </li>
+            </Step>
         );
     }
 }

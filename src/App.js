@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import MessageList from './components/messageList';
-import SendMessageForm from './components/sendMessageForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import axios from 'axios';
 import uuid from "uuid";
 import Cookies from 'universal-cookie';
+import { ChatBotContainer, MessageList, SendMessageForm } from './components';
+
 const cookies = new Cookies();
+
 class App extends Component {
-    //Since componentWillMount is being deprecated is far better to make tasks that
+    //Since componentWillMount is being deprecated is far better to do tasks that
     //they need to be done before the component is mounted in constructor function itself
     constructor(props) {
         super(props);
