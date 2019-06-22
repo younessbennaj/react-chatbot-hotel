@@ -9,6 +9,7 @@ import {
     Content,
     Header,
     HeaderTitle,
+    Footer,
     MessageList,
     SendMessageForm
 } from './components';
@@ -118,7 +119,9 @@ class App extends Component {
                     <Content height={contentHeight} className="mt-1 pt-2">
                         <MessageList messages={this.state.messages} />
                     </Content>
-                    <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                    <Footer className="shadow rounded-bottom">
+                        <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                    </Footer>
                 </ChatBotContainer>
             </main>
         );

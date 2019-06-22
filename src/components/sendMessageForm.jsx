@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import uuid from "uuid";
+import styled from 'styled-components';
+
+const Input = styled.input`
+    border-radius: 0;
+    height: 44px;
+    font-size: 16px;
+`;
 
 class SendMessageForm extends Component {
     state = {
@@ -29,7 +36,7 @@ class SendMessageForm extends Component {
         return (
             <form onSubmit={this.onSubmit}>
                 <div className="input-group mb-3">
-                    <input value={this.state.message.text} onChange={this.handleChange} ref={this.message} type="text" className="form-control" placeholder="Type here..."></input>
+                    <Input value={this.state.message.text} onChange={this.handleChange} ref={this.message} type="text" className="form-control" placeholder="Type here..."></Input>
                 </div>
             </form>
         );
