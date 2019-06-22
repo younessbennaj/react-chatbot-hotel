@@ -13,10 +13,6 @@ class SendMessageForm extends Component {
         message: this.props.message
     }
 
-    emptyForm() {
-        console.log('test');
-    }
-
     handleChange = e => {
         const message = { ...this.state.message };
         message.text = e.currentTarget.value;

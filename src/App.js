@@ -67,11 +67,22 @@ class App extends Component {
     // }
 
     df_text_query_result() {
+        // const botMessage = {
+        //     name: 'Bot',
+        //     text: 'Voici une sélection de chambres:',
+        //     id: uuid.v4()
+        // };
         const botMessage = {
             name: 'Bot',
-            text: 'Voici une sélection de chambres:',
+            type: 'caroussel',
+            content: {
+                title: 'Rooms',
+                type: 'caroussel',
+                text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                button: 'Go somewhere'
+            },
             id: uuid.v4()
-        };
+        }
         this.renderMessages(botMessage);
     }
 
@@ -95,7 +106,6 @@ class App extends Component {
         const messages = this.state.messages;
         messages.push(message);
         this.setState({ messages });
-        console.log(this.state.messages);
     }
 
     componentDidMount() {
