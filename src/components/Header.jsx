@@ -5,6 +5,7 @@ const Header = styled.div`
     background: ${({ theme }) => theme.headerBgColor};
     color: ${({ theme }) => theme.headerFontColor};
     height: 56px;
+    border-radius: 10px 10px 0px 0px;
 `;
 
 Header.defaultProps = {

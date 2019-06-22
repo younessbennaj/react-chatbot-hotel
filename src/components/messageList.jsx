@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Message from './Message';
+import TextMessage from '../messages_components/text/TextMessage';
 
 class MessageList extends Component {
     state = {
@@ -9,7 +9,7 @@ class MessageList extends Component {
         return (
             <ul className="list-group">
                 {this.state.messages.map(message => {
-                    return <Message key={message.id} message={message} />
+                    return <TextMessage key={message.id} message={message} />
                 })}
             </ul>
         );

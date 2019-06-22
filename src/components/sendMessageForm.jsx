@@ -30,9 +30,6 @@ class SendMessageForm extends Component {
             <form onSubmit={this.onSubmit}>
                 <div className="input-group mb-3">
                     <input value={this.state.message.text} onChange={this.handleChange} ref={this.message} type="text" className="form-control" placeholder="Type here..."></input>
-                    <div className="input-group-append">
-                        <button className="btn btn-primary" type="submit">Send</button>
-                    </div>
                 </div>
             </form>
         );

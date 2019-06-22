@@ -4,7 +4,14 @@ import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import axios from 'axios';
 import uuid from "uuid";
 import Cookies from 'universal-cookie';
-import { ChatBotContainer, Header, HeaderTitle, MessageList, SendMessageForm } from './components';
+import {
+    ChatBotContainer,
+    Content,
+    Header,
+    HeaderTitle,
+    MessageList,
+    SendMessageForm
+} from './components';
 
 const cookies = new Cookies();
 
@@ -36,23 +43,42 @@ class App extends Component {
     }
 
 
-    async df_text_query_result(text) {
-        const data = { text, userId: cookies.get('userId') };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+    // async df_text_query_result(text) {
+    //     const data = { text, userId: cookies.get('userId') };
+    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         text: response.data.fulfillmentMessages[0].text.text[0],
+    //         id: uuid.v4()
+    //     };
+    //     this.renderMessages(botMessage);
+    // }
+
+    // df_event_query_result = async (event) => {
+    //     const data = { event };
+    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         text: response.data.fulfillmentMessages[0].text.text[0],
+    //         id: uuid.v4()
+    //     };
+    //     this.renderMessages(botMessage);
+    // }
+
+    df_text_query_result() {
         const botMessage = {
             name: 'Bot',
-            text: response.data.fulfillmentMessages[0].text.text[0],
+            text: 'Voici une sélection de chambres:',
             id: uuid.v4()
         };
         this.renderMessages(botMessage);
     }
 
-    df_event_query_result = async (event) => {
-        const data = { event };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
+    df_event_query_result() {
+
         const botMessage = {
             name: 'Bot',
-            text: response.data.fulfillmentMessages[0].text.text[0],
+            text: 'Good day! What can I do for you today?',
             id: uuid.v4()
         };
         this.renderMessages(botMessage);
@@ -79,16 +105,19 @@ class App extends Component {
     render() {
         const width = '350px';
         const height = '520px';
+        const contentHeight = "426px"
         return (
             <main className="container">
                 <ChatBotContainer
                     width={width}
                     height={height}
                 >
-                    <Header className="d-flex justify-content-center align-items-center px-2">
+                    <Header className="d-flex align-items-center px-3">
                         <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
                     </Header>
-                    <MessageList messages={this.state.messages} />
+                    <Content height={contentHeight} className="mt-1 pt-2">
+                        <MessageList messages={this.state.messages} />
+                    </Content>
                     <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
                 </ChatBotContainer>
             </main>
