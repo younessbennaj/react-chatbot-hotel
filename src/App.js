@@ -62,18 +62,22 @@ class App extends Component {
 
                 const content = [];
 
-                values.map((value) => {
-                    const { title, type, text, button } = value.structValue.fields;
+                console.log(values);
 
+                values.map((value) => {
+                    const { title, type, subtitle, button, imageUrl } = value.structValue.fields;
                     const cardContent = {
-                        title,
-                        type,
-                        text,
-                        button
+                        title: title.stringValue,
+                        type: type.stringValue,
+                        text: subtitle.stringValue,
+                        imageUrl: imageUrl.stringValue,
+                        button: button.stringValue
                     }
 
                     content.push(cardContent);
-                });
+                })
+
+                console.log(content);
 
                 botMessage = {
                     name: 'Bot',
