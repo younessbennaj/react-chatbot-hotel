@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
-import MessageList from './components/messageList';
-import SendMessageForm from './components/sendMessageForm';
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import axios from 'axios';
 import uuid from "uuid";
 import Cookies from 'universal-cookie';
+import {
+    ChatBotContainer,
+    Content,
+    Header,
+    HeaderTitle,
+    Footer,
+    MessageList,
+    SendMessageForm
+} from './components';
+
 const cookies = new Cookies();
+
 class App extends Component {
-    //Since componentWillMount is being deprecated is far better to make tasks that
+    //Since componentWillMount is being deprecated is far better to do tasks that
     //they need to be done before the component is mounted in constructor function itself
     constructor(props) {
         super(props);
@@ -17,6 +26,7 @@ class App extends Component {
             messages: [],
             message: {
                 name: 'User',
+                type: 'text',
                 text: '',
                 id: uuid.v4()
             }
@@ -35,23 +45,68 @@ class App extends Component {
     }
 
 
-    async df_text_query_result(text) {
-        const data = { text, userId: cookies.get('userId') };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+    // async df_text_query_result(text) {
+    //     const data = { text, userId: cookies.get('userId') };
+    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         text: response.data.fulfillmentMessages[0].text.text[0],
+    //         id: uuid.v4()
+    //     };
+    //     this.renderMessages(botMessage);
+    // }
+
+    // df_event_query_result = async (event) => {
+    //     const data = { event };
+    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         text: response.data.fulfillmentMessages[0].text.text[0],
+    //         id: uuid.v4()
+    //     };
+    //     this.renderMessages(botMessage);
+    // }
+
+    df_text_query_result() {
+        // const botMessage = {
+        //     name: 'Bot',
+        //     text: 'Voici une sélection de chambres:',
+        //     id: uuid.v4()
+        // };
         const botMessage = {
             name: 'Bot',
-            text: response.data.fulfillmentMessages[0].text.text[0],
+            type: 'caroussel',
+            content: [
+                {
+                    title: 'Room 1',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                },
+                {
+                    title: 'Room 2',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                },
+                {
+                    title: 'Room 3',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                }
+            ],
             id: uuid.v4()
-        };
+        }
         this.renderMessages(botMessage);
     }
 
-    df_event_query_result = async (event) => {
-        const data = { event };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
+    df_event_query_result() {
+
         const botMessage = {
             name: 'Bot',
-            text: response.data.fulfillmentMessages[0].text.text[0],
+            type: 'text',
+            text: 'Good day! What can I do for you today?',
             id: uuid.v4()
         };
         this.renderMessages(botMessage);
@@ -67,7 +122,6 @@ class App extends Component {
         const messages = this.state.messages;
         messages.push(message);
         this.setState({ messages });
-        console.log(this.state.messages);
     }
 
     componentDidMount() {
@@ -76,11 +130,25 @@ class App extends Component {
 
 
     render() {
+        const width = '350px';
+        const height = '520px';
+        const contentHeight = "426px"
         return (
             <main className="container">
-                <h1 className="text-center">Hospitality Chatbot</h1>
-                <MessageList messages={this.state.messages} />
-                <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                <ChatBotContainer
+                    width={width}
+                    height={height}
+                >
+                    <Header className="d-flex align-items-center px-3">
+                        <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
+                    </Header>
+                    <Content height={contentHeight} className="mt-1 pt-2">
+                        <MessageList messages={this.state.messages} />
+                    </Content>
+                    <Footer className="shadow rounded-bottom">
+                        <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                    </Footer>
+                </ChatBotContainer>
             </main>
         );
     }
