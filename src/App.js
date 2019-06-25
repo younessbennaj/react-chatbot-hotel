@@ -45,72 +45,104 @@ class App extends Component {
     }
 
 
-    // async df_text_query_result(text) {
-    //     const data = { text, userId: cookies.get('userId') };
-    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
-    //     const botMessage = {
-    //         name: 'Bot',
-    //         text: response.data.fulfillmentMessages[0].text.text[0],
-    //         id: uuid.v4()
-    //     };
-    //     this.renderMessages(botMessage);
-    // }
+    async df_text_query_result(text) {
+        const data = { text, userId: cookies.get('userId') };
+        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+        response.data.fulfillmentMessages.map((response) => {
+            let botMessage;
+            if (response.message === 'text') {
+                botMessage = {
+                    name: 'Bot',
+                    type: 'text',
+                    text: response.text.text[0],
+                    id: uuid.v4()
+                };
+            } else {
+                const { values } = response.payload.fields.content.listValue;
 
-    // df_event_query_result = async (event) => {
-    //     const data = { event };
-    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
-    //     const botMessage = {
-    //         name: 'Bot',
-    //         text: response.data.fulfillmentMessages[0].text.text[0],
-    //         id: uuid.v4()
-    //     };
-    //     this.renderMessages(botMessage);
-    // }
+                const content = [];
 
-    df_text_query_result() {
-        // const botMessage = {
-        //     name: 'Bot',
-        //     text: 'Voici une sélection de chambres:',
-        //     id: uuid.v4()
-        // };
-        const botMessage = {
-            name: 'Bot',
-            type: 'caroussel',
-            content: [
-                {
-                    title: 'Room 1',
+                values.map((value) => {
+                    const { title, type, text, button } = value.structValue.fields;
+
+                    const cardContent = {
+                        title,
+                        type,
+                        text,
+                        button
+                    }
+
+                    content.push(cardContent);
+                });
+
+                botMessage = {
+                    name: 'Bot',
                     type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
-                },
-                {
-                    title: 'Room 2',
-                    type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
-                },
-                {
-                    title: 'Room 3',
-                    type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
+                    content,
+                    id: uuid.v4()
                 }
-            ],
-            id: uuid.v4()
-        }
-        this.renderMessages(botMessage);
+            }
+
+            this.renderMessages(botMessage);
+        });
     }
 
-    df_event_query_result() {
-
+    df_event_query_result = async (event) => {
+        const data = { event };
+        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
         const botMessage = {
             name: 'Bot',
             type: 'text',
-            text: 'Good day! What can I do for you today?',
+            text: response.data.fulfillmentMessages[0].text.text[0],
             id: uuid.v4()
         };
         this.renderMessages(botMessage);
     }
+
+    // df_text_query_result() {
+    //     // const botMessage = {
+    //     //     name: 'Bot',
+    //     //     text: 'Voici une sélection de chambres:',
+    //     //     id: uuid.v4()
+    //     // };
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         type: 'caroussel',
+    //         content: [
+    //             {
+    //                 title: 'Room 1',
+    //                 type: 'caroussel',
+    //                 text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+    //                 button: 'Go somewhere'
+    //             },
+    //             {
+    //                 title: 'Room 2',
+    //                 type: 'caroussel',
+    //                 text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+    //                 button: 'Go somewhere'
+    //             },
+    //             {
+    //                 title: 'Room 3',
+    //                 type: 'caroussel',
+    //                 text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+    //                 button: 'Go somewhere'
+    //             }
+    //         ],
+    //         id: uuid.v4()
+    //     }
+    //     this.renderMessages(botMessage);
+    // }
+
+    // df_event_query_result() {
+
+    //     const botMessage = {
+    //         name: 'Bot',
+    //         type: 'text',
+    //         text: 'Good day! What can I do for you today?',
+    //         id: uuid.v4()
+    //     };
+    //     this.renderMessages(botMessage);
+    // }
 
     submitMessages(message) {
         const userMessage = { ...message };

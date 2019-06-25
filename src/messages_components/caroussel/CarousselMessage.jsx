@@ -20,7 +20,6 @@ class CarousselMessage extends Component {
         message: this.props.message
     }
     render() {
-        console.log(this.state.message);
         return (
             <CarousselMessageContainer className="d-flex flex-row">
                 {this.state.message.content.map(card => {
