@@ -20,13 +20,13 @@ class CarousselMessage extends Component {
         message: this.props.message
     }
     render() {
-        console.log(this.state.message);
         return (
             <CarousselMessageContainer className="d-flex flex-row">
                 {this.state.message.content.map(card => {
+                    console.log(card);
                     return (
                         <Card key={uuid.v4()} className="card shadow-sm mx-3">
-                            <img src="https://placeimg.com/286/180/arch" className="card-img-top" alt="..."></img>
+                            <img src={card.imageUrl} className="card-img-top" alt="..."></img>
                             <div className="card-body">
                                 <h5 className="card-title">{card.title}</h5>
                                 <p className="card-text">{card.text}</p>

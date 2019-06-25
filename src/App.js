@@ -24,7 +24,7 @@ class App extends Component {
         // Don't call this.setState() here!
         this.state = {
             messages: [],
-            message: {
+            userMessage: {
                 name: 'User',
                 type: 'text',
                 text: '',
@@ -44,78 +44,68 @@ class App extends Component {
         }
     }
 
+    async df_text_query_result(text) {
+        const data = { text, userId: cookies.get('userId') };
+        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
 
-    // async df_text_query_result(text) {
-    //     const data = { text, userId: cookies.get('userId') };
-    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
-    //     const botMessage = {
-    //         name: 'Bot',
-    //         text: response.data.fulfillmentMessages[0].text.text[0],
-    //         id: uuid.v4()
-    //     };
-    //     this.renderMessages(botMessage);
-    // }
+        response.data.fulfillmentMessages.map((response) => {
+            this.filterByMessageType(response);
+        });
+    }
 
-    // df_event_query_result = async (event) => {
-    //     const data = { event };
-    //     const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
-    //     const botMessage = {
-    //         name: 'Bot',
-    //         text: response.data.fulfillmentMessages[0].text.text[0],
-    //         id: uuid.v4()
-    //     };
-    //     this.renderMessages(botMessage);
-    // }
+    df_event_query_result = async (event) => {
+        const data = { event };
+        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
 
-    df_text_query_result() {
-        // const botMessage = {
-        //     name: 'Bot',
-        //     text: 'Voici une sélection de chambres:',
-        //     id: uuid.v4()
-        // };
-        const botMessage = {
-            name: 'Bot',
-            type: 'caroussel',
-            content: [
-                {
-                    title: 'Room 1',
-                    type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
-                },
-                {
-                    title: 'Room 2',
-                    type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
-                },
-                {
-                    title: 'Room 3',
-                    type: 'caroussel',
-                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                    button: 'Go somewhere'
+        response.data.fulfillmentMessages.map((response) => {
+            this.filterByMessageType(response);
+        });
+    }
+
+    filterByMessageType(response) {
+
+        let botMessage;
+        if (response.message === 'text') {
+            botMessage = {
+                name: 'Bot',
+                type: 'text',
+                text: response.text.text[0],
+                id: uuid.v4()
+            };
+        } else {
+            const { values } = response.payload.fields.content.listValue;
+
+            const content = [];
+
+            values.map((value) => {
+                const { title, type, subtitle, button, imageUrl } = value.structValue.fields;
+                const cardContent = {
+                    title: title.stringValue,
+                    type: type.stringValue,
+                    text: subtitle.stringValue,
+                    imageUrl: imageUrl.stringValue,
+                    button: button.stringValue
                 }
-            ],
-            id: uuid.v4()
+
+                content.push(cardContent);
+            })
+
+            botMessage = {
+                name: 'Bot',
+                type: 'caroussel',
+                content,
+                id: uuid.v4()
+            }
         }
+
         this.renderMessages(botMessage);
+
     }
 
-    df_event_query_result() {
-
-        const botMessage = {
-            name: 'Bot',
-            type: 'text',
-            text: 'Good day! What can I do for you today?',
-            id: uuid.v4()
-        };
-        this.renderMessages(botMessage);
-    }
-
-    submitMessages(message) {
-        const userMessage = { ...message };
-        this.renderMessages(userMessage);
-        this.df_text_query_result(message.text);
+    submitMessages(userMessage) {
+        const message = { ...userMessage };
+        this.renderMessages(message);
+        this.df_text_query_result(userMessage.text);
     }
 
     renderMessages(message) {
@@ -146,7 +136,7 @@ class App extends Component {
                         <MessageList messages={this.state.messages} />
                     </Content>
                     <Footer className="shadow rounded-bottom">
-                        <SendMessageForm message={this.state.message} onSubmit={this.submitMessages} />
+                        <SendMessageForm userMessage={this.state.userMessage} onSubmit={this.submitMessages} />
                     </Footer>
                 </ChatBotContainer>
             </main>
