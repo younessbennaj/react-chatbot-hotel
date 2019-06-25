@@ -26,6 +26,7 @@ class App extends Component {
             messages: [],
             message: {
                 name: 'User',
+                type: 'text',
                 text: '',
                 id: uuid.v4()
             }
@@ -75,12 +76,26 @@ class App extends Component {
         const botMessage = {
             name: 'Bot',
             type: 'caroussel',
-            content: {
-                title: 'Rooms',
-                type: 'caroussel',
-                text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
-                button: 'Go somewhere'
-            },
+            content: [
+                {
+                    title: 'Room 1',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                },
+                {
+                    title: 'Room 2',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                },
+                {
+                    title: 'Room 3',
+                    type: 'caroussel',
+                    text: 'Some quick example text to build on the card title and make up the bulk of the cards content',
+                    button: 'Go somewhere'
+                }
+            ],
             id: uuid.v4()
         }
         this.renderMessages(botMessage);
@@ -90,6 +105,7 @@ class App extends Component {
 
         const botMessage = {
             name: 'Bot',
+            type: 'text',
             text: 'Good day! What can I do for you today?',
             id: uuid.v4()
         };

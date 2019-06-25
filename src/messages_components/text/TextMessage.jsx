@@ -5,8 +5,7 @@ import TextMessageContainer from './TextMessageContainer';
 
 const Message = (props) => {
 
-    const Avatar = styled.div`
-        background-color: #2196F3;
+    const Avatar = styled.img`
         padding: 6px;
         height: 46px;
         width: 46px;
@@ -18,7 +17,7 @@ const Message = (props) => {
             <TextMessageContainer>
                 <div className="mb-3 d-flex flex-row">
                     <div className="d-flex align-items-end mr-2">
-                        <Avatar className="rounded-circle shadow-sm ml-2" />
+                        <Avatar className="rounded-circle shadow-sm ml-2" src="https://api.adorable.io/avatars/46/abott@adorable.png" />
                     </div>
                     <Bubble user={props.message.name} className="shadow-sm p-3">
                         {props.message.text}
@@ -31,7 +30,7 @@ const Message = (props) => {
             <TextMessageContainer>
                 <div className="mb-3 d-flex flex-row-reverse">
                     <div className="d-flex align-items-center ml-2">
-                        <Avatar className="rounded-circle shadow-sm mr-2" />
+                        <Avatar className="rounded-circle shadow-sm mr-2" src="https://api.adorable.io/avatars/46/abott@adorable.png" />
                     </div>
                     <Bubble user={props.message.name} className="shadow-sm p-3">
                         {props.message.text}

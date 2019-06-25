@@ -12,8 +12,9 @@ class MessageList extends Component {
                 {this.state.messages.map(message => {
                     if (message.type === 'caroussel') {
                         return <CarousselMessage key={message.id} message={message} />
+                    } else if (message.type === 'text') {
+                        return <TextMessage key={message.id} message={message} />
                     }
-                    return <TextMessage key={message.id} message={message} />
                 })}
             </ul>
         );
