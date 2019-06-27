@@ -42,7 +42,7 @@ class CarouselMessage extends Component {
 
     render() {
         return (
-            <SliderContainer>
+            <SliderContainer className="mb-3">
                 <Arrow
                     className='position-absolute'
                     direction='left'
