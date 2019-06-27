@@ -17,6 +17,8 @@ import {
 const cookies = new Cookies();
 
 class App extends Component {
+    messagesEnd;
+
     //Since componentWillMount is being deprecated is far better to do tasks that
     //they need to be done before the component is mounted in constructor function itself
     constructor(props) {
@@ -117,6 +119,9 @@ class App extends Component {
         this.df_event_query_result('Welcome');
     }
 
+    componentDidUpdate() {
+        this.messagesEnd.scrollIntoView({ behaviour: "smooth" });
+    }
 
     render() {
         const width = '350px';
@@ -133,6 +138,8 @@ class App extends Component {
                     </Header>
                     <Content height={contentHeight} className="mt-1 pt-2">
                         <MessageList messages={this.state.messages} />
+                        <div ref={(element) => { this.messagesEnd = element; }}>
+                        </div>
                     </Content>
                     <Footer className="shadow rounded-bottom">
                         <SendMessageForm userMessage={this.state.userMessage} onSubmit={this.submitMessages} />
