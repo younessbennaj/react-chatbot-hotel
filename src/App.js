@@ -46,7 +46,7 @@ class App extends Component {
 
     async df_text_query_result(text) {
         const data = { text, userId: cookies.get('userId') };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_text_query', data);
+        const response = await axios.post('https://dae75b5c.ngrok.io/api/df_text_query', data);
 
         response.data.fulfillmentMessages.map((response) => {
             this.filterByMessageType(response);
@@ -55,8 +55,7 @@ class App extends Component {
 
     df_event_query_result = async (event) => {
         const data = { event };
-        const response = await axios.post('https://d5b785a5.ngrok.io/api/df_event_query', data);
-
+        const response = await axios.post('https://dae75b5c.ngrok.io/api/df_event_query', data);
         response.data.fulfillmentMessages.map((response) => {
             this.filterByMessageType(response);
         });
@@ -92,7 +91,7 @@ class App extends Component {
 
             botMessage = {
                 name: 'Bot',
-                type: 'caroussel',
+                type: 'carousel',
                 content,
                 id: uuid.v4()
             }
