@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import QuickRepliesMessageContainer from './QuickRepliesMessageContainer';
+import QuickReplies from './QuickReplies';
+import QuickReply from './QuickReply';
+import QuickRepliesElement from './QuickRepliesElement';
 
 class quickRepliesMessage extends Component {
     constructor(props) {
@@ -10,14 +14,19 @@ class quickRepliesMessage extends Component {
     render() {
         return (
 
-            <div>
-                {this.state.message.content.map((button) => {
-                    console.log(button);
-                    return (
-                        <button key={button.title} className="btn btn-primary">{button.title}</button>
-                    )
-                })}
-            </div>
+            <QuickRepliesMessageContainer>
+                <QuickReplies>
+                    {this.state.message.content.map((button) => {
+                        return (
+                            <QuickReply key={button.title}>
+                                <QuickRepliesElement>
+                                    {button.title}
+                                </QuickRepliesElement>
+                            </QuickReply>
+                        )
+                    })}
+                </QuickReplies>
+            </QuickRepliesMessageContainer>
         );
     }
 }
