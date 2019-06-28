@@ -137,12 +137,22 @@ class App extends Component {
         this.df_text_query_result(userMessage.text);
     }
 
-    submitQuickReplies(value) {
-        console.log(value);
-        const message = { ...this.state.userMessage };
-        message.text = value;
-        message.id = uuid.v4();
-        this.submitMessages(message);
+    submitQuickReplies(value, messageId) {
+        const messages = [...this.state.messages];
+        const deleteMessage = messages.find((message) => {
+            return message.id === messageId;
+        })
+        messages.splice(messages.indexOf(deleteMessage), 1);
+
+        this.setState(
+            { messages },
+            () => {
+                const message = { ...this.state.userMessage };
+                message.text = value;
+                message.id = uuid.v4();
+                this.submitMessages(message);
+            }
+        );
     }
 
     renderMessages(message) {

@@ -13,8 +13,8 @@ class quickRepliesMessage extends Component {
         }
     }
 
-    handleQuickReplies(value) {
-        this.state.submitQuickReplies(value)
+    handleQuickReplies(value, messageId) {
+        this.state.submitQuickReplies(value, messageId);
     }
 
     render() {
@@ -25,7 +25,7 @@ class quickRepliesMessage extends Component {
                     {this.state.message.content.map((button) => {
                         return (
                             <QuickReply key={button.title}>
-                                <QuickRepliesElement onClick={() => this.handleQuickReplies(button.value)}>
+                                <QuickRepliesElement onClick={() => this.handleQuickReplies(button.value, this.state.message.id)}>
                                     {button.title}
                                 </QuickRepliesElement>
                             </QuickReply>
