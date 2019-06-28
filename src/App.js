@@ -142,7 +142,7 @@ class App extends Component {
         const message = { ...this.state.userMessage };
         message.text = value;
         message.id = uuid.v4();
-        this.renderMessages(message);
+        this.submitMessages(message);
     }
 
     renderMessages(message) {
