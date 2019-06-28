@@ -36,6 +36,7 @@ class App extends Component {
         //We bind the submitMessages method to the component instead of the sendMessageForm props object
         //Now 'this' refer to the component class
         this.submitMessages = this.submitMessages.bind(this);
+        this.submitQuickReplies = this.submitQuickReplies.bind(this);
 
         //We need to set a cookie in the user browser with a unique id to remember the conversation
         //If the user refresh the page or comeback in the site he session still be the same and
@@ -136,6 +137,14 @@ class App extends Component {
         this.df_text_query_result(userMessage.text);
     }
 
+    submitQuickReplies(value) {
+        console.log(value);
+        const message = { ...this.state.userMessage };
+        message.text = value;
+        message.id = uuid.v4();
+        this.renderMessages(message);
+    }
+
     renderMessages(message) {
         const messages = this.state.messages;
         messages.push(message);
@@ -164,7 +173,10 @@ class App extends Component {
                         <HeaderTitle className="">Hospitality Chatbot</HeaderTitle>
                     </Header>
                     <Content height={contentHeight} className="mt-1 pt-2">
-                        <MessageList messages={this.state.messages} />
+                        <MessageList
+                            onQuickRepliesSubmit={this.submitQuickReplies}
+                            messages={this.state.messages}
+                        />
                         <div ref={(element) => { this.messagesEnd = element; }}>
                         </div>
                     </Content>

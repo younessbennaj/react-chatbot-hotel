@@ -5,7 +5,8 @@ import QuickRepliesMessage from '../messages_components/quickReplies/QuickReplie
 
 class MessageList extends Component {
     state = {
-        messages: this.props.messages
+        messages: this.props.messages,
+        submitQuickReplies: this.props.onQuickRepliesSubmit
     }
     render() {
         return (
@@ -14,7 +15,13 @@ class MessageList extends Component {
                     if (message.type === 'carousel') {
                         return <CarouselMessage key={message.id} message={message} />
                     } else if (message.type === 'quickReplies') {
-                        return <QuickRepliesMessage key={message.id} message={message} />
+                        return (
+                            <QuickRepliesMessage
+                                onQuickRepliesSubmit={this.state.submitQuickReplies}
+                                key={message.id}
+                                message={message}
+                            />
+                        )
                     } else if (message.type === 'text') {
                         return <TextMessage key={message.id} message={message} />
                     }
