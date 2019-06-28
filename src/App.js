@@ -49,7 +49,6 @@ class App extends Component {
     async df_text_query_result(text) {
         const data = { text, userId: cookies.get('userId') };
         const response = await axios.post('https://dae75b5c.ngrok.io/api/df_text_query', data);
-
         response.data.fulfillmentMessages.map((response) => {
             this.filterByMessageType(response);
         });
@@ -64,7 +63,6 @@ class App extends Component {
     }
 
     filterByMessageType(response) {
-
         let botMessage;
         if (response.message === 'text') {
             botMessage = {
@@ -74,29 +72,58 @@ class App extends Component {
                 id: uuid.v4()
             };
         } else {
-            const { values } = response.payload.fields.content.listValue;
 
-            const content = [];
+            const { type } = response.payload.fields;
 
-            values.map((value) => {
-                const { title, type, subtitle, button, imageUrl } = value.structValue.fields;
-                const cardContent = {
-                    title: title.stringValue,
+            if (type.stringValue === 'carousel') {
+
+                const { values } = response.payload.fields.content.listValue;
+                const content = [];
+
+                values.map((value) => {
+                    const { title, type, subtitle, button, imageUrl } = value.structValue.fields;
+                    const cardContent = {
+                        title: title.stringValue,
+                        type: type.stringValue,
+                        text: subtitle.stringValue,
+                        imageUrl: imageUrl.stringValue,
+                        button: button.stringValue
+                    }
+
+                    content.push(cardContent);
+                });
+
+                botMessage = {
+                    name: 'Bot',
                     type: type.stringValue,
-                    text: subtitle.stringValue,
-                    imageUrl: imageUrl.stringValue,
-                    button: button.stringValue
+                    content,
+                    id: uuid.v4()
                 }
 
-                content.push(cardContent);
-            })
-
-            botMessage = {
-                name: 'Bot',
-                type: 'carousel',
-                content,
-                id: uuid.v4()
             }
+
+            if (type.stringValue === 'quickReplies') {
+                const { values } = response.payload.fields.content.structValue.fields.buttons.listValue;
+                const content = [];
+
+                values.map((button) => {
+                    const { title, value } = button.structValue.fields;
+                    const quickRepliesContent = {
+                        title: title.stringValue,
+                        value: value.stringValue
+                    }
+
+                    content.push(quickRepliesContent);
+                });
+
+                botMessage = {
+                    name: 'Bot',
+                    type: type.stringValue,
+                    content,
+                    id: uuid.v4()
+                }
+            }
+
         }
 
         this.renderMessages(botMessage);
