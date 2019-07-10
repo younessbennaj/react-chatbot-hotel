@@ -50,6 +50,7 @@ class App extends Component {
     async df_text_query_result(text) {
         const data = { text, userId: cookies.get('userId') };
         const response = await axios.post('https://dae75b5c.ngrok.io/api/df_text_query', data);
+        console.log(response.data);
         response.data.fulfillmentMessages.map((response) => {
             this.filterByMessageType(response);
         });
@@ -63,71 +64,76 @@ class App extends Component {
         });
     }
 
+    payloadReducer(payload) {
+
+        return payload.listValue.values.map((item) => {
+            let result = {};
+            for (let key in item.structValue.fields) {
+                if (item.structValue.fields[key].stringValue) {
+                    result[key] = item.structValue.fields[key].stringValue;
+                } else {
+                    result[key] = this.payloadReducer(item.structValue.fields[key]);
+                }
+            }
+            return result;
+        });
+
+    }
+
     filterByMessageType(response) {
         let botMessage;
         if (response.message === 'text') {
             botMessage = {
                 name: 'Bot',
-                type: 'text',
+                type: response.message,
                 text: response.text.text[0],
                 id: uuid.v4()
             };
+            this.renderMessages(botMessage);
+        } else if (response.message === 'quickReplies') {
+            const { quickReplies } = response.quickReplies;
+            // const { values } = response.payload.fields.content.structValue.fields.buttons.listValue;
+            const content = [];
+
+            quickReplies.map((reply) => {
+                const quickRepliesContent = {
+                    title: reply,
+                    value: reply
+                }
+
+                content.push(quickRepliesContent);
+            });
+
+            botMessage = {
+                name: 'Bot',
+                type: response.message,
+                content,
+                id: uuid.v4()
+            }
+
+            this.renderMessages(botMessage);
+
         } else {
 
-            const { type } = response.payload.fields;
+            const { fields } = response.payload;
 
-            if (type.stringValue === 'carousel') {
+            if (fields.carousel) {
 
-                const { values } = response.payload.fields.content.listValue;
-                const content = [];
+                const { carousel } = response.payload.fields;
 
-                values.map((value) => {
-                    const { title, type, subtitle, button, imageUrl } = value.structValue.fields;
-                    const cardContent = {
-                        title: title.stringValue,
-                        type: type.stringValue,
-                        text: subtitle.stringValue,
-                        imageUrl: imageUrl.stringValue,
-                        button: button.stringValue
-                    }
-
-                    content.push(cardContent);
-                });
+                const content = this.payloadReducer(carousel);
 
                 botMessage = {
                     name: 'Bot',
-                    type: type.stringValue,
+                    type: 'carousel',
                     content,
                     id: uuid.v4()
                 }
 
             }
 
-            if (type.stringValue === 'quickReplies') {
-                const { values } = response.payload.fields.content.structValue.fields.buttons.listValue;
-                const content = [];
-
-                values.map((button) => {
-                    const { title, value } = button.structValue.fields;
-                    const quickRepliesContent = {
-                        title: title.stringValue,
-                        value: value.stringValue
-                    }
-
-                    content.push(quickRepliesContent);
-                });
-
-                botMessage = {
-                    name: 'Bot',
-                    type: type.stringValue,
-                    content,
-                    id: uuid.v4()
-                }
-            }
-
+            this.renderMessages(botMessage);
         }
-
-        this.renderMessages(botMessage);
 
     }
 
