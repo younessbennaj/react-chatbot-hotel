@@ -67,12 +67,16 @@ class CarouselMessage extends Component {
                                 <div className="card-body">
                                     <h5 className="card-title">{card.title}</h5>
                                     <p className="card-text">{card.text}</p>
+                                </div>
+                                <ul className="list-group list-group-flush">
                                     {card.buttons.map(button => {
                                         return (
-                                            <a key={uuid.v4()} href="#" className="btn btn-primary">{button.title}</a>
+                                            <li key={uuid.v4()} className="list-group-item text-center">
+                                                <a href="#" className="text-center">{button.title}</a>
+                                            </li>
                                         )
                                     })}
-                                </div>
+                                </ul>
                             </Card>
                         )
                     })}
